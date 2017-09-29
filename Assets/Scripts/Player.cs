@@ -389,7 +389,7 @@ public class Player : MonoBehaviour {
             {
                 statistics.AddUnlucky(PlayerStatistics.Unluckies.Coins_lost50);
             }
-            for (; amount > 0 && coins > 0; amount--)
+            for (; amount < 0 && coins > 0; amount++)
             {
                 coins--;    // players coins can't get below zero
             }

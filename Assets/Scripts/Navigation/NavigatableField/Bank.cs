@@ -3,9 +3,6 @@ using XInputDotNetPure;
 
 public class Bank : NavigatableField {
 
-    public AudioSource bankAudio;
-    private AudioClip audio;
-
     private enum BankState
     {
         Inactive,
@@ -45,9 +42,9 @@ public class Bank : NavigatableField {
         switch(bankState)
         {
             case BankState.Landed:
-                //audio = Resources.Load<AudioClip>("Audio/Fields/bank_land"); TODO
-                bankAudio.clip = audio;
-                bankAudio.Play();
+                soundToPlay = Resources.Load<AudioClip>("Audio/Fields/bank_land");
+                fieldSound.clip = soundToPlay;
+                fieldSound.Play();
                 HUD_Info.enabled = true;
                 HUD_Info_Text.enabled = true;
                 if (bankAccount == 0)
@@ -61,12 +58,13 @@ public class Bank : NavigatableField {
                 {
                     HUD_Info_Text.text = "Welcome to Loopa Bank!\n Your account is ready to withdraw, please visit us again!";
                     coinsToChange = bankAccount;
+                    bankAccount = 0;
                 }
                 bankState = BankState.ConfirmA;
                 break;
             case BankState.PassBy:
-                //audio = Resources.Load<AudioClip>("Audio/Fields/bank_pass"); TODO
-                bankAudio.clip = audio;
+                fieldSound = Resources.Load<AudioClip>("Audio/Fields/bank_pass");
+                bankAudio.clip = fieldSound;
                 bankAudio.Play();
                 HUD_Info.enabled = true;
                 HUD_Info_Text.enabled = true;
