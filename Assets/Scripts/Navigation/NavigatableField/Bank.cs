@@ -1,7 +1,10 @@
-﻿
+﻿using UnityEngine;
 using XInputDotNetPure;
 
 public class Bank : NavigatableField {
+
+    public AudioSource bankAudio;
+    private AudioClip audio;
 
     private enum BankState
     {
@@ -35,8 +38,6 @@ public class Bank : NavigatableField {
         player.currentPlayerState = Player.PlayerState.Stop;
         currentPlayer = player;
         bankState = BankState.PassBy;
-        HUD_Info.enabled = true;
-        
     }
 
     private void Update()
@@ -44,21 +45,29 @@ public class Bank : NavigatableField {
         switch(bankState)
         {
             case BankState.Landed:
+                //audio = Resources.Load<AudioClip>("Audio/Fields/bank_land"); TODO
+                bankAudio.clip = audio;
+                bankAudio.Play();
                 HUD_Info.enabled = true;
-                if(bankAccount == 0)
+                HUD_Info_Text.enabled = true;
+                if (bankAccount == 0)
                 {
                     HUD_Info_Text.text = "Welcome to Loopa Bank!\n Your account is ready to withdraw... \n unfortunately we are in a deep bank crisis and " +
                         "cannot give you any money. Feel free to visit us another time!";
                     currentPlayer.statistics.AddUnlucky(PlayerStatistics.Unluckies.Bank_broke);
+                    coinsToChange = 0;
                 }
                 else
                 {
                     HUD_Info_Text.text = "Welcome to Loopa Bank!\n Your account is ready to withdraw, please visit us again!";
+                    coinsToChange = bankAccount;
                 }
-                
-                coinsToChange = bankAccount;
+                bankState = BankState.ConfirmA;
                 break;
             case BankState.PassBy:
+                //audio = Resources.Load<AudioClip>("Audio/Fields/bank_pass"); TODO
+                bankAudio.clip = audio;
+                bankAudio.Play();
                 HUD_Info.enabled = true;
                 HUD_Info_Text.enabled = true;
                 HUD_Info_Text.text = "Welcome to Loopa Bank!\n Please deposit some coins for us to waste on fonds. Thank you!";
