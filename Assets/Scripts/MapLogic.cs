@@ -10,6 +10,7 @@ public class MapLogic : MonoBehaviour {
     public Camera mainCamera;
     private CameraMove cameraMoveScript;
     public GameObject canvas;
+    private System.Random rng;
 
     public UnityEvent m_introductionFinished;
 
@@ -29,10 +30,12 @@ public class MapLogic : MonoBehaviour {
 
     /** Minigames **/
     private MinigameListItem[] list4x4 = new MinigameListItem[] {
-        new MinigameListItem("", "")
+        new MinigameListItem("Piranha Fishing", "PiranhaFishing"),
+        new MinigameListItem("Robo Marathon", "RoboMarathon"),
+        new MinigameListItem("Sushi Go Round", "SushiGoRound"),
     };
     private MinigameListItem[] list1x3 = new MinigameListItem[] {
-        new MinigameListItem("", "")
+        new MinigameListItem("Simon Says", "SimonSays")
     };
     private MinigameListItem[] list2x2 = new MinigameListItem[] {
         new MinigameListItem("Pizza Pronto", "PizzaPronto")
@@ -76,6 +79,7 @@ public class MapLogic : MonoBehaviour {
         currentTurn = 1;
         currentState = GameState.DetermineOrder;
         ranking = new Image[4];
+        rng = new System.Random();
 
         m_introductionFinished = new UnityEvent();
         m_introductionFinished.AddListener(IntroductionFinished);
@@ -119,12 +123,15 @@ public class MapLogic : MonoBehaviour {
         playerTwo = GameObject.FindGameObjectWithTag("PlayerTwo").GetComponent<Player>();
         playerTwo.alignment = "right";
         //playerThree = GameObject.FindGameObjectWithTag("PlayerThree").GetComponent<Player>();
+        playerThree.alignment = "left";
         //playerFour = GameObject.FindGameObjectWithTag("PlayerFour").GetComponent<Player>();
+        playerFour.alignment = "right";
         HUD_Info.enabled = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        rng.Next();
 		if(currentState == GameState.Start)
         {
             canvas.SetActive(false);
@@ -143,7 +150,6 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.PlayerFirst)
         {
-
             currentPlayer = new PlayerOne();
             playerOne.m_StartPlayer.Invoke();
             currentState = GameState.Inactive;
@@ -172,6 +178,37 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.ChooseNextMinigame)
         {
+            int blues = 0;
+            playerOne.color = playerOne.color == Player.Color.Green ? PickRandomColor() : playerOne.color; 
+            playerTwo.color = playerTwo.color == Player.Color.Green ? PickRandomColor() : playerTwo.color; 
+            playerThree.color = playerThree.color == Player.Color.Green ? PickRandomColor() : playerThree.color;
+            playerFour.color = playerFour.color == Player.Color.Green ? PickRandomColor() : playerFour.color;
+
+            RefreshAvatarSprites();
+
+            blues += playerOne.color == Player.Color.Blue ? 1 : 0;
+            blues += playerTwo.color == Player.Color.Blue ? 1 : 0;
+            blues += playerThree.color == Player.Color.Blue ? 1 : 0;
+            blues += playerFour.color == Player.Color.Blue ? 1 : 0;
+
+            MinigameListItem[] listing = new MinigameListItem[6];
+
+            if (blues == 4 || blues == 0) // 4 player game 
+            {
+                listing = PickRandomMinigames(list4x4, 6);
+            }
+            else if(blues == 2) // 2 vs 2 player game
+            {
+               listing = PickRandomMinigames(list2x2, 6);
+            }
+            else if(blues == 1 || blues == 3) // 1 vs 3 player game
+            {
+                listing = PickRandomMinigames(list1x3, 6);
+            }
+
+            // TODO give listing visible, start with highlighting box
+            // rotate through the list 2 to 3 times, then pick actual game (std. 12 + random(12)) % 6 (range 0 - 5)
+            // when picked actual game jump to scene without destroying this scene, before leaving, reset camera, players to std. values
             currentState = GameState.Reset;
         }
         else if(currentState == GameState.ItemMinigame)
@@ -182,9 +219,10 @@ public class MapLogic : MonoBehaviour {
         {
             playerOne.color = Player.Color.None;
             playerTwo.color = Player.Color.None;
+            playerThree.color = Player.Color.None;
+            playerFour.color = Player.Color.None;
 
-            playerOne.avatar.sprite = playerOne.LoadAvatarSprite();
-            playerTwo.avatar.sprite = playerTwo.LoadAvatarSprite();
+            RefreshAvatarSprites();
 
             currentState = GameState.PlayerFirst;
         }
@@ -221,5 +259,30 @@ public class MapLogic : MonoBehaviour {
     {
         currentState = GameState.DetermineOrder;
         print("currentState: DetemineOrder");
+    }
+
+    private Player.Color PickRandomColor()
+    {
+        if (rng.Next(2) == 0)
+            return Player.Color.Blue;
+        return Player.Color.Red;
+    }
+
+    private void RefreshAvatarSprites()
+    {
+        playerOne.avatar.sprite = playerOne.LoadAvatarSprite();
+        playerTwo.avatar.sprite = playerTwo.LoadAvatarSprite();
+        playerThree.avatar.sprite = playerThree.LoadAvatarSprite();
+        playerFour.avatar.sprite = playerFour.LoadAvatarSprite();
+    }
+
+    public MinigameListItem[] PickRandomMinigames(MinigameListItem[] listToPick, int numToPick)
+    {
+        MinigameListItem[] temp = new MinigameListItem[6];
+        for (int i = 0; i < numToPick; i++)  // pick 6 games at random 
+        {
+            temp[i] = listToPick[rng.Next(listToPick.Length)];
+        }
+        return temp;
     }
 }
