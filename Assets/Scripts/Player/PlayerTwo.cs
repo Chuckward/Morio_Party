@@ -6,6 +6,6 @@ public class PlayerTwo : PlayerObject {
     {
         playerTag = "PlayerTwo";
         avatarTag = "Avatar_second";
-        index = XInputDotNetPure.PlayerIndex.Two;
+        index = XInputDotNetPure.PlayerIndex.One;
     }
 }

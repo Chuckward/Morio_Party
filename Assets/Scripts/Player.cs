@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
     public GameObject dice;
     public UnityEvent m_StartPlayer;
     private System.Random rng;
-
+    public string alignment;
     public Character character;
 
     private Vector3 offset;
@@ -25,11 +25,13 @@ public class Player : MonoBehaviour {
 
     /** UI Changes due to player **/
     private GameObject canvas;
+    public Image avatar;
     public Text playerAlertText;
     public Text diceText;
     public Text textPause;
     public Text coinsText;
     public Text starsText;
+    public Color color;
 
     /** Other Scripts related to this one **/
     private Dice diceScript;
@@ -51,6 +53,15 @@ public class Player : MonoBehaviour {
         TriggerEvents,
         Pause   
     }
+
+    public enum Color
+    {
+        Blue,
+        Red,
+        Green,
+        None
+    }
+
     public PlayerState currentPlayerState;
     private PlayerState lastPlayerState;
 
@@ -87,6 +98,7 @@ public class Player : MonoBehaviour {
         currentPlayerState = PlayerState.Inactive;
         textPause.enabled = false;
         diceText.enabled = false;
+        color = Color.None;
 
         canvas = mapScript.canvas;
 
@@ -98,8 +110,6 @@ public class Player : MonoBehaviour {
 
         activeItem = new None();
         rng = new System.Random();
-
-
     }
 
     private void Start()
@@ -186,7 +196,7 @@ public class Player : MonoBehaviour {
                 {
                     ((Join)currentPosition).navigatableField.ApplyEffect(this);
                 }
-                
+                avatar.sprite = LoadAvatarSprite();
                 currentPlayerState = PlayerState.Inactive;
                 offset = new Vector3(0, 15, 10);
                 mapScript.m_Player_finished.Invoke();
@@ -404,5 +414,22 @@ public class Player : MonoBehaviour {
     public int GetPlayerStars()
     {
         return stars;
+    }
+
+    public Sprite LoadAvatarSprite()
+    {
+        switch(color)
+        {
+            case Color.None:
+                return Resources.Load<Sprite>("HUD/avatar_" + alignment + "_none");
+            case Color.Blue:
+                return Resources.Load<Sprite>("HUD/avatar_" + alignment + "_blue");
+            case Color.Red:
+                return Resources.Load<Sprite>("HUD/avatar_" + alignment + "_red");
+            case Color.Green:
+                return Resources.Load<Sprite>("HUD/avatar_" + alignment + "_green");
+            default:
+                return Resources.Load<Sprite>("HUD/avatar_" + alignment + "_none");
+        }
     }
 }

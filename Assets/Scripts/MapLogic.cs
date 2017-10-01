@@ -28,10 +28,19 @@ public class MapLogic : MonoBehaviour {
     private GameState nextState;
 
     /** Minigames **/
-    private Minigame[] list4x4;
-    private Minigame[] list1x3;
-    private Minigame[] list2x2;
-    private Minigame[] battle;
+    private MinigameListItem[] list4x4 = new MinigameListItem[] {
+        new MinigameListItem("", "")
+    };
+    private MinigameListItem[] list1x3 = new MinigameListItem[] {
+        new MinigameListItem("", "")
+    };
+    private MinigameListItem[] list2x2 = new MinigameListItem[] {
+        new MinigameListItem("Pizza Pronto", "PizzaPronto")
+    };
+    private MinigameListItem[] battle = new MinigameListItem[] {
+    };
+    private MinigameListItem[] itemGames = new MinigameListItem[] {
+    };
 
     public Transform[] ui_main;
     public Transform[] ui_item;
@@ -49,7 +58,7 @@ public class MapLogic : MonoBehaviour {
         ChooseNextMinigame,
         Minigame,
         BattleGame,
-        SpecialMinigame,
+        ItemMinigame,
         Bossfight,
         PlayerFirst,
         PlayerSecond,
@@ -57,6 +66,7 @@ public class MapLogic : MonoBehaviour {
         PlayerFourth,
         Introduction,
         DetermineOrder,
+        Reset,
         Inactive,               // Inactive waits for an event to be triggered externally
         Exit,
     }
@@ -105,7 +115,9 @@ public class MapLogic : MonoBehaviour {
     void Start () {
         cameraMoveScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMove>();
         playerOne = GameObject.FindGameObjectWithTag("PlayerOne").GetComponent<Player>();
+        playerOne.alignment = "left";
         playerTwo = GameObject.FindGameObjectWithTag("PlayerTwo").GetComponent<Player>();
+        playerTwo.alignment = "right";
         //playerThree = GameObject.FindGameObjectWithTag("PlayerThree").GetComponent<Player>();
         //playerFour = GameObject.FindGameObjectWithTag("PlayerFour").GetComponent<Player>();
         HUD_Info.enabled = false;
@@ -131,6 +143,7 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.PlayerFirst)
         {
+
             currentPlayer = new PlayerOne();
             playerOne.m_StartPlayer.Invoke();
             currentState = GameState.Inactive;
@@ -141,7 +154,7 @@ public class MapLogic : MonoBehaviour {
             currentPlayer = new PlayerTwo();
             playerTwo.m_StartPlayer.Invoke();
             currentState = GameState.Inactive;
-            nextState = GameState.PlayerFirst;
+            nextState = GameState.ChooseNextMinigame;
         }
         else if (currentState == GameState.PlayerThird)
         {
@@ -159,11 +172,21 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.ChooseNextMinigame)
         {
-
+            currentState = GameState.Reset;
         }
-        else
+        else if(currentState == GameState.ItemMinigame)
         {
 
+        }
+        else if(currentState == GameState.Reset)
+        {
+            playerOne.color = Player.Color.None;
+            playerTwo.color = Player.Color.None;
+
+            playerOne.avatar.sprite = playerOne.LoadAvatarSprite();
+            playerTwo.avatar.sprite = playerTwo.LoadAvatarSprite();
+
+            currentState = GameState.PlayerFirst;
         }
     }
 
@@ -172,10 +195,15 @@ public class MapLogic : MonoBehaviour {
         return currentPlayer;
     }
 
-    private void PlayerFinished()
+    public void PlayerFinished()
     {
         currentState = nextState;
+    }
 
+    public void TriggerItemMinigame()
+    {
+        lastState = currentState;
+        currentState = GameState.ItemMinigame;
     }
 
     public void SwitchUIMainItem(bool fromMainToItem)

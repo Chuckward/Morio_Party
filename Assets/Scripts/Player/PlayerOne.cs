@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 public class PlayerOne : PlayerObject {
     
     public PlayerOne()

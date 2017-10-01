@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class Battle : NavigatableField {
 
@@ -9,9 +9,9 @@ public class Battle : NavigatableField {
         soundToPlay = Resources.Load<AudioClip>("Audio/Fields/special");
         fieldSound.clip = soundToPlay;
         fieldSound.Play();
+        player.color = Player.Color.Green;
 
-
-        //SceneManager.LoadSceneAsync();
+        // trigger battle minigame
     }
 
     public override void PassBy(Player player)

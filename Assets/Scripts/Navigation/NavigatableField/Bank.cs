@@ -27,6 +27,7 @@ public class Bank : NavigatableField {
     {
         bankState = BankState.Landed;
         currentPlayer = player;
+        player.color = Player.Color.Green;
         player.statistics.AddToField(Waypoint.FieldType.Bank);
     }
 
@@ -63,9 +64,9 @@ public class Bank : NavigatableField {
                 bankState = BankState.ConfirmA;
                 break;
             case BankState.PassBy:
-                fieldSound = Resources.Load<AudioClip>("Audio/Fields/bank_pass");
-                bankAudio.clip = fieldSound;
-                bankAudio.Play();
+                soundToPlay = Resources.Load<AudioClip>("Audio/Fields/bank_pass");
+                fieldSound.clip = soundToPlay;
+                fieldSound.Play();
                 HUD_Info.enabled = true;
                 HUD_Info_Text.enabled = true;
                 HUD_Info_Text.text = "Welcome to Loopa Bank!\n Please deposit some coins for us to waste on fonds. Thank you!";

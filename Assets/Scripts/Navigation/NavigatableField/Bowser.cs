@@ -10,6 +10,7 @@ public class Bowser : NavigatableField {
         soundToPlay = Resources.Load<AudioClip>("Audio/Fields/bowser");
         fieldSound.clip = soundToPlay;
         fieldSound.Play();
+        player.color = Player.Color.Red;
         SceneManager.LoadSceneAsync("BowserSpace");
     }
 

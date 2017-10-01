@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 public class Red : NavigatableField {
 
     private void Awake()
@@ -8,6 +9,10 @@ public class Red : NavigatableField {
 
     public override void ApplyEffect(Player player)
     {
+        soundToPlay = Resources.Load<AudioClip>("Audio/Fields/red");
+        fieldSound.clip = soundToPlay;
+        fieldSound.Play();
+        player.color = Player.Color.Red;
         player.ChangeCoins(-3);
         player.statistics.AddToField(Waypoint.FieldType.Red);
     }

@@ -9,6 +9,7 @@ public class Chance : NavigatableField {
         soundToPlay = Resources.Load<AudioClip>("Audio/Fields/special");
         fieldSound.clip = soundToPlay;
         fieldSound.Play();
+        player.color = Player.Color.Green;
         SceneManager.LoadSceneAsync("chancetime");
     }
 
