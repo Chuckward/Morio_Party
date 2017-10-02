@@ -1,0 +1,85 @@
+Generate Map places semi-random
+
+Cameos aka
+	- Rick and Morty
+	- Anime?
+References
+	- Big Bang Theory
+	- Game of Thrones
+	
+Bossgames/Special:
+	- Steal Donalds Toupe with Music Diddy Kong Racing Wizpig Challenge (Boss Fight)
+	- Kart Race, Drag Race, Brawl
+	- King Boo 
+	- Bowser Fight (1 vs Bowser active)
+
+Luigis Manson Map (The manson) (Hard) (Luigi)
+	- Collect ghosts instead of stars
+	- End sequence just like Luigi putting Ghosts into portraits
+	- Include Fake doors like Luigis Manson, if activated loose coins or hearts (survival)
+	- More locked doors which make a key essential 
+	- Star location not revealed (if no ghosts), instead give a Gameboy Horror 
+	- 100% chance of bossfight at the end
+	- Rooms generally dark, every character gets a Light -> special animation/model!
+
+Gigantosaur Rekt (Giant Map, Medium) (Yoshi)
+	- Even Koopas and Goombas from Shops, Banks and Battle Game are Giant (change Soundeffects accordingly!)
+	- Toad could also be giant for funny effects (deep voice "I'm the best")
+	
+Sweet Momma(-board) (Futuristic/Engineers Dream, Hard) (Waluigi?)
+	- Strong focus on mechanics & electronics around
+	- Ideal  Cameo for Rick and Morty and Big Bang References
+		(Baby Bowser with "This is my spot, pay me coins")
+	- 90% Boss Fight
+
+Mario Castle Calamity (Super Mario 64 Style) (Medium/Funny) (Mario)
+	- 50% Boss Fight
+
+Rainbow Road Map (Hard)
+	- very big map
+	- a lot different skybox as usual
+
+Jungle (?)/Tropical (Easy) (DK)
+	- Mysterious Focus a la "Mystery Map MP2"
+	- Desert part
+	- Strong music association with Donkey Kong/Diddy Kong
+	- 25% Boss Fight
+
+Snow Theme (?) (Easy) (Peach?)
+	- Play with Lighting!
+	- Good Reference to Game of Thrones?
+	- 25% Boss Fight
+
+Whirly Dirly (kinda Bowser Map, Hard) (Wario)
+	- 100% Boss Fight
+
+More difficulty:
+	Turn bought Star Fields into Bowser Fields
+	Boo costs more and steals less
+	Items cost more, but more powerful
+	Day/Nightcycle 
+	Toad is a NPC wandering the map, having an own Dice each turn, but can only land on blue spaces (you have to get to toad, not
+	viable if he passes a character)
+	Bowser could join as very hard NPC (only 4-player?) and if he wins, something fucked up happens (like increased difficulty without
+	the possibility to change it until he is defeated again); Triggers everytime a Duel if he lands on character space (steals 20 coins if you loose but 
+	you can win a star if he looses)
+	Chance Time includes Bowser
+	Last turns swap blue with red or a blue/red space only gives lesser coins
+	Survival Mode - if no coins and stars left, every round a heart will be taken. When player has no hearts left, he dies and gets to play as ghost,
+	which has other aspects of the game (like fucking with other characters, stealing items, coins, special ability...) but can't win anymore
+	Star costs more (~30?)
+
+With advances or maximum difficulty Toads clothing changes to a dungeon masters' 
+
+Minigames: 
+	
+
+Pumping minigames 
+	- chance of 20% to be extra quick -> Danzel "Pump it up"
+
+Minigames:
+	Catch the piranha plant (fishing, 4 vs 4)
+	Pizza Pronto (2 vs 2)
+	Simon says (1 vs 3)
+	Tank fight (Battle game/Battle Royal)
+
