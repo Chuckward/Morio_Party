@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 public class Star : NavigatableField {
 
 
@@ -10,6 +11,9 @@ public class Star : NavigatableField {
     public override void PassBy(Player player)
     {
         // buy star!
+        soundToPlay = Resources.Load<AudioClip>("Audio/Fields/starField");
+        fieldSound.clip = soundToPlay;
+        fieldSound.Play();
         player.statistics.AddToField(Waypoint.FieldType.Star);
     }
 }

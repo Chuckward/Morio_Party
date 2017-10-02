@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using System.Collections;
 
 public class MapLogic : MonoBehaviour {
 
@@ -15,11 +14,12 @@ public class MapLogic : MonoBehaviour {
 
     public UnityEvent m_introductionFinished;
 
-    private Player playerOne;
-    private Player playerTwo;
-    private Player playerThree;
-    private Player playerFour;
+    public Player playerOne;
+    public Player playerTwo;
+    public Player playerThree;
+    public Player playerFour;
     private Player[] order;
+    private MapMinigameSM minigameChooserScript;
     public Image[] ranking;
     private PlayerObject currentPlayer;
 
@@ -28,54 +28,6 @@ public class MapLogic : MonoBehaviour {
     private GameState currentState;
     private GameState lastState;
     private GameState nextState;
-
-    /** Minigames **/
-    private MinigameListItem[] list4x4 = new MinigameListItem[] {
-        new MinigameListItem("Piranha Fishing", "PiranhaFishing"),
-        new MinigameListItem("Robo Marathon", "RoboMarathon"),
-        new MinigameListItem("Sushi Go Round", "SushiGoRound"),
-        new MinigameListItem("M.P.I.Q", "MPIQ"),
-        new MinigameListItem("Bombs Away", "BombsAway"),
-        new MinigameListItem("Hot Rope Jump", "HotRopeJump"),
-        new MinigameListItem("Totem Pole Pound", "TotemPolePound"),
-        new MinigameListItem("Bookworm", "Bookworm"),
-
-    };
-    private MinigameListItem[] list1x3 = new MinigameListItem[] {
-        new MinigameListItem("Simon Says", "SimonSays"),
-        new MinigameListItem("Bob omb Barrage", "BobombBarage"),
-        new MinigameListItem("Bowling", "Bowling"),
-        new MinigameListItem("temp1", "Bowling"),
-        new MinigameListItem("temp2", "Bowling"),
-        new MinigameListItem("temp3", "Bowling")
-    };
-    private MinigameListItem[] list2x2 = new MinigameListItem[] {
-        new MinigameListItem("Pizza Pronto", "PizzaPronto"),
-        new MinigameListItem("Speed Hockey", "SpeedHockey"),
-        new MinigameListItem("Hipster Lumberjacks", "HipserLumberjacks"),
-        new MinigameListItem("Fish Cash(i)er", "FishCashier"),
-        new MinigameListItem("temp1", "Bowling"),
-        new MinigameListItem("temp2", "Bowling"),
-        new MinigameListItem("temp3", "Bowling")
-    };
-    private MinigameListItem[] battle = new MinigameListItem[] {
-        new MinigameListItem("Bumper Balloon Cars", "BumperBalloonCars"),
-         new MinigameListItem("Crazy Cutters", "CrazyCutters"),
-        new MinigameListItem("Face Lift", "FaceLift"),
-        new MinigameListItem("Hot Bob Omb", "HotBobOmb")
-    };
-    private MinigameListItem[] itemGames = new MinigameListItem[] {
-       
-    };
-    private MinigameListItem[] duelGames = new MinigameListItem[] {
-        new MinigameListItem("Chicken Run", "ChickenRun"),
-        new MinigameListItem("Bowser Toss", "BowserToss"),
-        new MinigameListItem("Shoot-em-up", "ShootEmUp")
-    };
-    private MinigameListItem[] casinoGames = new MinigameListItem[] {
-        new MinigameListItem("Roulette", "Roulette"),
-        new MinigameListItem("Black Jack", "BlackJack")
-    };
 
     public Transform[] ui_main;
     public Transform[] ui_item;
@@ -117,6 +69,7 @@ public class MapLogic : MonoBehaviour {
         m_introductionFinished.AddListener(IntroductionFinished);
 
         canvas = GameObject.FindGameObjectWithTag("Canvas");
+        minigameChooserScript = GetComponent<MapMinigameSM>();
 
         currentPlayer = new PlayerOne();    // must match player tag!
         ranking[0] = canvas.transform.Find("Avatars/Avatar_first/Rank").GetComponent<Image>();
@@ -129,7 +82,7 @@ public class MapLogic : MonoBehaviour {
         ranking[3].sprite = Resources.Load<Sprite>("Ranking/first");
 
         m_Player_finished = new UnityEvent();
-        m_Player_finished.AddListener(PlayerFinished);
+        m_Player_finished.AddListener(ExecuteNextState);
 
         Transform temp = canvas.transform.Find("Avatars").GetComponent<Transform>();
         ui_main = new Transform[4];
@@ -210,59 +163,18 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.ChooseNextMinigame)
         {
-            int blues = 0;
-            playerOne.color = playerOne.color == Player.Color.Green ? PickRandomColor() : playerOne.color; 
-            playerTwo.color = playerTwo.color == Player.Color.Green ? PickRandomColor() : playerTwo.color; 
-            playerThree.color = playerThree.color == Player.Color.Green ? PickRandomColor() : playerThree.color;
-            playerFour.color = playerFour.color == Player.Color.Green ? PickRandomColor() : playerFour.color;
-
-            RefreshAvatarSprites();
-
-            blues += playerOne.color == Player.Color.Blue ? 1 : 0;
-            blues += playerTwo.color == Player.Color.Blue ? 1 : 0;
-            blues += playerThree.color == Player.Color.Blue ? 1 : 0;
-            blues += playerFour.color == Player.Color.Blue ? 1 : 0;
-
-            MinigameListItem[] listing = new MinigameListItem[6];
-
-            if (blues == 4 || blues == 0) // 4 player game 
-            {
-                listing = PickRandomMinigames(list4x4, 6);
-            }
-            else if(blues == 2) // 2 vs 2 player game
-            {
-               listing = PickRandomMinigames(list2x2, 6);
-            }
-            else if(blues == 1 || blues == 3) // 1 vs 3 player game
-            {
-                listing = PickRandomMinigames(list1x3, 6);
-            }
-
-            for(int i = 0; i < listing.Length; i++)
-            {
-                print(listing[i].name);
-            }
-
-            // TODO give listing visible, start with highlighting box
-            // rotate through the list 2 to 3 times, then pick actual game (std. 12 + random(12)) % 6 (range 0 - 5)
-            // when picked actual game jump to scene without destroying this scene, before leaving, reset camera, players to std. values
-            currentState = GameState.Reset;
+            minigameChooserScript.m_chooseMinigame.Invoke();
+            currentState = GameState.Inactive;
+            nextState = GameState.Reset;
+            
         }
         else if(currentState == GameState.ItemMinigame)
         {
-            MinigameListItem[] listing = new MinigameListItem[3];
-            listing = PickRandomMinigames(itemGames, 3);
-
+            minigameChooserScript.m_chooseItemgame.Invoke();
+            
         }
         else if(currentState == GameState.Reset)
         {
-            playerOne.color = Player.Color.None;
-            playerTwo.color = Player.Color.None;
-            playerThree.color = Player.Color.None;
-            playerFour.color = Player.Color.None;
-
-            RefreshAvatarSprites();
-
             currentState = GameState.PlayerFirst;
         }
     }
@@ -272,7 +184,7 @@ public class MapLogic : MonoBehaviour {
         return currentPlayer;
     }
 
-    public void PlayerFinished()
+    public void ExecuteNextState()
     {
         currentState = nextState;
     }
@@ -298,36 +210,5 @@ public class MapLogic : MonoBehaviour {
     {
         currentState = GameState.DetermineOrder;
         print("currentState: DetemineOrder");
-    }
-
-    private Player.Color PickRandomColor()
-    {
-        if (rng.Next(2) == 0)
-            return Player.Color.Blue;
-        return Player.Color.Red;
-    }
-
-    private void RefreshAvatarSprites()
-    {
-        playerOne.avatar.sprite = playerOne.LoadAvatarSprite();
-        playerTwo.avatar.sprite = playerTwo.LoadAvatarSprite();
-        playerThree.avatar.sprite = playerThree.LoadAvatarSprite();
-        playerFour.avatar.sprite = playerFour.LoadAvatarSprite();
-    }
-
-    public MinigameListItem[] PickRandomMinigames(MinigameListItem[] listToPick, int numToPick)
-    {
-        MinigameListItem[] temp = new MinigameListItem[6];
-        var tempList = new ArrayList();
-
-        for (int i = 0; i < numToPick; i++)  // pick 6 games at random 
-        {
-            temp[i] = listToPick[rng.Next(listToPick.Length)];
-            if (tempList.Contains(temp[i]))     // filter duplicates
-                i--;
-            else
-                tempList.Add(temp[i]);
-        }
-        return temp;
     }
 }

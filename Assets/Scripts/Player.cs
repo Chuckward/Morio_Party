@@ -284,7 +284,8 @@ public class Player : MonoBehaviour {
                 {
                   //  statistics.Advance();
                     nextPosition = ((Field)currentPosition).next;
-                    dice_rolled--;
+                    if(!(((Field)currentPosition).navigatableField is Star))
+                        dice_rolled--;
                 }
                 else if(currentPosition is Split2)
                 {
