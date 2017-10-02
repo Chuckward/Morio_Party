@@ -6,6 +6,6 @@ public class PlayerFour : PlayerObject {
     {
         playerTag = "PlayerFour";
         avatarTag = "Player4";
-        index = XInputDotNetPure.PlayerIndex.Four;
+        index = XInputDotNetPure.PlayerIndex.One;
     }
 }

@@ -8,6 +8,6 @@ public class PlayerThree : PlayerObject {
     {
         playerTag = "PlayerThree";
         avatarTag = "Avatar_third";
-        index = XInputDotNetPure.PlayerIndex.Three;
+        index = XInputDotNetPure.PlayerIndex.One;
     }
 }

@@ -25,6 +25,7 @@ public class Bank : NavigatableField {
 
     public override void ApplyEffect(Player player)
     {
+        player.currentPlayerState = Player.PlayerState.Stop;
         bankState = BankState.Landed;
         currentPlayer = player;
         player.color = Player.Color.Green;
@@ -87,8 +88,9 @@ public class Bank : NavigatableField {
                 }
                 HUD_Info.enabled = false;
                 HUD_Info_Text.enabled = false;
-                currentPlayer.currentPlayerState = Player.PlayerState.Move;
                 bankState = BankState.Inactive;
+                currentPlayer.currentPlayerState = Player.PlayerState.Move;
+                
                 break;
             default:
                 break;

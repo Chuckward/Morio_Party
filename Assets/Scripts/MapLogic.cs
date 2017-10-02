@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 public class MapLogic : MonoBehaviour {
 
@@ -33,16 +34,47 @@ public class MapLogic : MonoBehaviour {
         new MinigameListItem("Piranha Fishing", "PiranhaFishing"),
         new MinigameListItem("Robo Marathon", "RoboMarathon"),
         new MinigameListItem("Sushi Go Round", "SushiGoRound"),
+        new MinigameListItem("M.P.I.Q", "MPIQ"),
+        new MinigameListItem("Bombs Away", "BombsAway"),
+        new MinigameListItem("Hot Rope Jump", "HotRopeJump"),
+        new MinigameListItem("Totem Pole Pound", "TotemPolePound"),
+        new MinigameListItem("Bookworm", "Bookworm"),
+
     };
     private MinigameListItem[] list1x3 = new MinigameListItem[] {
-        new MinigameListItem("Simon Says", "SimonSays")
+        new MinigameListItem("Simon Says", "SimonSays"),
+        new MinigameListItem("Bob omb Barrage", "BobombBarage"),
+        new MinigameListItem("Bowling", "Bowling"),
+        new MinigameListItem("temp1", "Bowling"),
+        new MinigameListItem("temp2", "Bowling"),
+        new MinigameListItem("temp3", "Bowling")
     };
     private MinigameListItem[] list2x2 = new MinigameListItem[] {
-        new MinigameListItem("Pizza Pronto", "PizzaPronto")
+        new MinigameListItem("Pizza Pronto", "PizzaPronto"),
+        new MinigameListItem("Speed Hockey", "SpeedHockey"),
+        new MinigameListItem("Hipster Lumberjacks", "HipserLumberjacks"),
+        new MinigameListItem("Fish Cash(i)er", "FishCashier"),
+        new MinigameListItem("temp1", "Bowling"),
+        new MinigameListItem("temp2", "Bowling"),
+        new MinigameListItem("temp3", "Bowling")
     };
     private MinigameListItem[] battle = new MinigameListItem[] {
+        new MinigameListItem("Bumper Balloon Cars", "BumperBalloonCars"),
+         new MinigameListItem("Crazy Cutters", "CrazyCutters"),
+        new MinigameListItem("Face Lift", "FaceLift"),
+        new MinigameListItem("Hot Bob Omb", "HotBobOmb")
     };
     private MinigameListItem[] itemGames = new MinigameListItem[] {
+       
+    };
+    private MinigameListItem[] duelGames = new MinigameListItem[] {
+        new MinigameListItem("Chicken Run", "ChickenRun"),
+        new MinigameListItem("Bowser Toss", "BowserToss"),
+        new MinigameListItem("Shoot-em-up", "ShootEmUp")
+    };
+    private MinigameListItem[] casinoGames = new MinigameListItem[] {
+        new MinigameListItem("Roulette", "Roulette"),
+        new MinigameListItem("Black Jack", "BlackJack")
     };
 
     public Transform[] ui_main;
@@ -122,9 +154,9 @@ public class MapLogic : MonoBehaviour {
         playerOne.alignment = "left";
         playerTwo = GameObject.FindGameObjectWithTag("PlayerTwo").GetComponent<Player>();
         playerTwo.alignment = "right";
-        //playerThree = GameObject.FindGameObjectWithTag("PlayerThree").GetComponent<Player>();
+        playerThree = GameObject.FindGameObjectWithTag("PlayerThree").GetComponent<Player>();
         playerThree.alignment = "left";
-        //playerFour = GameObject.FindGameObjectWithTag("PlayerFour").GetComponent<Player>();
+        playerFour = GameObject.FindGameObjectWithTag("PlayerFour").GetComponent<Player>();
         playerFour.alignment = "right";
         HUD_Info.enabled = false;
     }
@@ -160,7 +192,7 @@ public class MapLogic : MonoBehaviour {
             currentPlayer = new PlayerTwo();
             playerTwo.m_StartPlayer.Invoke();
             currentState = GameState.Inactive;
-            nextState = GameState.ChooseNextMinigame;
+            nextState = GameState.PlayerThird;
         }
         else if (currentState == GameState.PlayerThird)
         {
@@ -206,6 +238,11 @@ public class MapLogic : MonoBehaviour {
                 listing = PickRandomMinigames(list1x3, 6);
             }
 
+            for(int i = 0; i < listing.Length; i++)
+            {
+                print(listing[i].name);
+            }
+
             // TODO give listing visible, start with highlighting box
             // rotate through the list 2 to 3 times, then pick actual game (std. 12 + random(12)) % 6 (range 0 - 5)
             // when picked actual game jump to scene without destroying this scene, before leaving, reset camera, players to std. values
@@ -213,6 +250,8 @@ public class MapLogic : MonoBehaviour {
         }
         else if(currentState == GameState.ItemMinigame)
         {
+            MinigameListItem[] listing = new MinigameListItem[3];
+            listing = PickRandomMinigames(itemGames, 3);
 
         }
         else if(currentState == GameState.Reset)
@@ -279,9 +318,15 @@ public class MapLogic : MonoBehaviour {
     public MinigameListItem[] PickRandomMinigames(MinigameListItem[] listToPick, int numToPick)
     {
         MinigameListItem[] temp = new MinigameListItem[6];
+        var tempList = new ArrayList();
+
         for (int i = 0; i < numToPick; i++)  // pick 6 games at random 
         {
             temp[i] = listToPick[rng.Next(listToPick.Length)];
+            if (tempList.Contains(temp[i]))     // filter duplicates
+                i--;
+            else
+                tempList.Add(temp[i]);
         }
         return temp;
     }
