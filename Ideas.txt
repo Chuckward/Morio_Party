@@ -81,5 +81,5 @@ Minigames:
 	Catch the piranha plant (fishing, 4 vs 4)
 	Pizza Pronto (2 vs 2)
 	Simon says (1 vs 3)
-	Tank fight (Battle game/Battle Royal)
+	Tank fight (Battle game/Battle Royal) -> extra hard with "Captian Jack - In the army now"
 

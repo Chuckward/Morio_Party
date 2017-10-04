@@ -9,7 +9,7 @@ public class Shop : NavigatableField {
 
     public override void PassBy(Player player)
     {
-        
+        player.currentPlayerState = Player.PlayerState.Move;
     }
 
 }

@@ -10,6 +10,7 @@ public class Battle : NavigatableField {
         fieldSound.clip = soundToPlay;
         fieldSound.Play();
         player.color = Player.Color.Green;
+        player.currentPlayerState = Player.PlayerState.Reset;
 
         // trigger battle minigame
     }

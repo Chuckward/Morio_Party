@@ -15,6 +15,7 @@ public class Red : NavigatableField {
         player.color = Player.Color.Red;
         player.ChangeCoins(-3);
         player.statistics.AddToField(Waypoint.FieldType.Red);
+        player.currentPlayerState = Player.PlayerState.Reset;
     }
 
     public override void PassBy(Player player)

@@ -33,6 +33,7 @@ public class Blue : NavigatableField  {
         player.color = Player.Color.Blue;
         player.ChangeCoins(3);
         player.statistics.AddToField(Waypoint.FieldType.Blue);
+        player.currentPlayerState = Player.PlayerState.Reset;
         // TODO change player box to respective color
     }
 

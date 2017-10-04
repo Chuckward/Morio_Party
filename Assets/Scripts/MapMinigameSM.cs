@@ -14,8 +14,6 @@ public class MapMinigameSM : MonoBehaviour {
 
     public MapLogic mapScript;
 
-    
-
     private System.Random rng;
     private MinigameListItem[] listing;
     private int chosenGameIndex;
@@ -23,6 +21,7 @@ public class MapMinigameSM : MonoBehaviour {
     /** UI Elements **/
     private Text[] minigameText;
     public GameObject minigameRoulette;
+
     private float transition;
     private int count;
 
@@ -160,19 +159,15 @@ public class MapMinigameSM : MonoBehaviour {
                     minigameText[chosenGameIndex].color = new Color(0f, 0f, 1f);
                 }
                 else if(Math.Floor(transition) == 2)
-                {
+                { 
                     minigameText[chosenGameIndex].color = new Color(1f, 1f, 1f);
                     transition = 0;
                     count++;
-                    
                 }
                 if (count == 6)
                 {
                     currentState = GameState.LoadMinigame;
                 }
-                    
-
-                
                 break;
             case GameState.LoadMinigame:
                 mapScript.playerOne.color = Player.Color.None;
@@ -238,7 +233,7 @@ public class MapMinigameSM : MonoBehaviour {
         new MinigameListItem("Simon Says", "SimonSays"),
         new MinigameListItem("Bob omb Barrage", "BobombBarage"),
         new MinigameListItem("Bowling", "Bowling"),
-        new MinigameListItem("temp1", "Bowling"),
+        new MinigameListItem("Tree Stomp", "TreeStomp"),
         new MinigameListItem("temp2", "Bowling"),
         new MinigameListItem("temp3", "Bowling")
     };
@@ -253,12 +248,13 @@ public class MapMinigameSM : MonoBehaviour {
     };
     private MinigameListItem[] battle = new MinigameListItem[] {
         new MinigameListItem("Bumper Balloon Cars", "BumperBalloonCars"),
-         new MinigameListItem("Crazy Cutters", "CrazyCutters"),
+        new MinigameListItem("Crazy Cutters", "CrazyCutters"),
         new MinigameListItem("Face Lift", "FaceLift"),
-        new MinigameListItem("Hot Bob Omb", "HotBobOmb")
+        new MinigameListItem("Hot Bob Omb", "HotBobOmb"),
+        new MinigameListItem("Drag Race", "DragRace")
     };
     private MinigameListItem[] itemGames = new MinigameListItem[] {
-
+        new MinigameListItem("Roll out the Barrels", "RollOutTheBarrels")
     };
     private MinigameListItem[] duelGames = new MinigameListItem[] {
         new MinigameListItem("Chicken Run", "ChickenRun"),

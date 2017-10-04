@@ -34,6 +34,7 @@ public class MapLogic : MonoBehaviour {
 
     public Image HUD_Info;
     public Text HUD_Info_Text;
+    public Image HUD_Info_Avatar;
 
     //TODO make table containing minigame names and their tags to select quickly
     // to choose one, get number of all viable minigames and get some random ones

@@ -12,6 +12,7 @@ public class Bowser : NavigatableField {
         fieldSound.Play();
         player.color = Player.Color.Red;
         SceneManager.LoadSceneAsync("BowserSpace");
+        player.currentPlayerState = Player.PlayerState.Reset;
     }
 
     public override void PassBy(Player player)

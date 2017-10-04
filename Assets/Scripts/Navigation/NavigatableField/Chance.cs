@@ -11,6 +11,7 @@ public class Chance : NavigatableField {
         fieldSound.Play();
         player.color = Player.Color.Green;
         SceneManager.LoadSceneAsync("chancetime");
+        player.currentPlayerState = Player.PlayerState.Reset;
     }
 
     public override void PassBy(Player player)

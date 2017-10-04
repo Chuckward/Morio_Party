@@ -13,6 +13,7 @@ public class Bank : NavigatableField {
     }
 
     private BankState bankState;
+    private BankState firstState;
     private int bankAccount;
     private int coinsToChange;
     private Player currentPlayer;
@@ -27,6 +28,7 @@ public class Bank : NavigatableField {
     {
         player.currentPlayerState = Player.PlayerState.Stop;
         bankState = BankState.Landed;
+        firstState = bankState;
         currentPlayer = player;
         player.color = Player.Color.Green;
         player.statistics.AddToField(Waypoint.FieldType.Bank);
@@ -37,6 +39,7 @@ public class Bank : NavigatableField {
         player.currentPlayerState = Player.PlayerState.Stop;
         currentPlayer = player;
         bankState = BankState.PassBy;
+        firstState = bankState;
     }
 
     private void Update()
@@ -49,10 +52,12 @@ public class Bank : NavigatableField {
                 fieldSound.Play();
                 HUD_Info.enabled = true;
                 HUD_Info_Text.enabled = true;
+                HUD_Info_Avatar.enabled = true;
                 if (bankAccount == 0)
                 {
                     HUD_Info_Text.text = "Welcome to Loopa Bank!\n Your account is ready to withdraw... \n unfortunately we are in a deep bank crisis and " +
                         "cannot give you any money. Feel free to visit us another time!";
+                    HUD_Info_Avatar.sprite = Resources.Load<Sprite>("Characters/Koopa_green_avatar");
                     currentPlayer.statistics.AddUnlucky(PlayerStatistics.Unluckies.Bank_broke);
                     coinsToChange = 0;
                 }
@@ -89,8 +94,10 @@ public class Bank : NavigatableField {
                 HUD_Info.enabled = false;
                 HUD_Info_Text.enabled = false;
                 bankState = BankState.Inactive;
-                currentPlayer.currentPlayerState = Player.PlayerState.Move;
-                
+                if(firstState == BankState.Landed)
+                    currentPlayer.currentPlayerState = Player.PlayerState.Reset;
+                else if(firstState == BankState.PassBy)
+                    currentPlayer.currentPlayerState = Player.PlayerState.Move;
                 break;
             default:
                 break;

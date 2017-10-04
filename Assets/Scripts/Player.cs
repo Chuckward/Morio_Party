@@ -51,6 +51,7 @@ public class Player : MonoBehaviour {
         Stop,
         Decide,
         TriggerEvents,
+        Reset,
         Pause   
     }
 
@@ -155,7 +156,7 @@ public class Player : MonoBehaviour {
             {
                 if (GamePad.GetState(mapScript.GetCurrentPlayer().index).Buttons.A.Equals(ButtonState.Pressed))
                 {
-                    dice_rolled = rng.Next(10) + 1;        
+                    dice_rolled = rng.Next(10) + 1;
                     diceText.enabled = true;
                     diceText.text = dice_rolled.ToString();
                     currentPlayerState = PlayerState.Move;
@@ -177,25 +178,28 @@ public class Player : MonoBehaviour {
                     currentPlayerState = PlayerState.RollDice;
                     diceScript.diceActivate.Invoke();
                 }
-                else if(GamePad.GetState(mapScript.GetCurrentPlayer().index).Buttons.Y.Equals(ButtonState.Pressed))    // Fuse items
+                else if (GamePad.GetState(mapScript.GetCurrentPlayer().index).Buttons.Y.Equals(ButtonState.Pressed))    // Fuse items
                 {
 
                 }
-                else if(GamePad.GetState(mapScript.GetCurrentPlayer().index).Buttons.A.Equals(ButtonState.Pressed))    // select item
+                else if (GamePad.GetState(mapScript.GetCurrentPlayer().index).Buttons.A.Equals(ButtonState.Pressed))    // select item
                 {
 
                 }
             }
             else if (currentPlayerState == PlayerState.TriggerEvents)
             {
-                if(currentPosition is Field)
+                if (currentPosition is Field)
                 {
                     ((Field)currentPosition).navigatableField.ApplyEffect(this);
                 }
-                else if(currentPosition is Join)
+                else if (currentPosition is Join)
                 {
                     ((Join)currentPosition).navigatableField.ApplyEffect(this);
                 }
+            }
+            else if(currentPlayerState == PlayerState.Reset)
+            { 
                 avatar.sprite = LoadAvatarSprite();
                 currentPlayerState = PlayerState.Inactive;
                 offset = new Vector3(0, 15, 10);
